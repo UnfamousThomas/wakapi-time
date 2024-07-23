@@ -8,7 +8,7 @@ import (
 	"time"
 )
 
-const HeartbeatDiffThreshold = 2 * time.Minute
+var HeartbeatDiffThreshold = 2 * time.Minute
 
 type DurationService struct {
 	config           *config.Config
@@ -20,6 +20,7 @@ func NewDurationService(heartbeatService IHeartbeatService) *DurationService {
 		config:           config.Get(),
 		heartbeatService: heartbeatService,
 	}
+	HeartbeatDiffThreshold = time.Duration(srv.config.App.ProjectTimeoutMinutes) * time.Minute
 	return srv
 }
 
